@@ -20,40 +20,24 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
-
-prediction  = 	 sigmoid(X * theta);
-
-
-
-
- 
-penaltya=-y * log(prediction);
-
-
-penaltyb=-(1-y) * log(prediction);
-
-J=(penaltya-penaltyb)/m;
-
-for i=1:rows(X)
-	penalty0=-y(i).* log(prediction(i,:));
-	penalty1=(1-y(i)) .* log(1-(prediction(i,:)));
-	J=J+(penalty0-penalty1); 
-end;
-
-J=J/m;
-
-
  
  
+ 
+ %% ################################
+ %  Here is solution with vectorization
+ 
+ 
+h = sigmoid(X * theta);
 
- 
- grad=X' * (prediction-y) /m;
-for j=1:size(theta)
-%	temp = sum((prediction-y).* X(:,j));
-%	grad(j) =  temp/m; 
-end 
- 
-  
+
+costPos = -y' * log(h);
+costNeg = (1 - y') * log(1 - h);
+
+J = (1/m) * (costPos - costNeg);
+
+grad = (1/m) * (X' * (h - y));
+
+%%  #################################
 
 
 % =============================================================
